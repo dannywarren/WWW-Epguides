@@ -1,0 +1,10 @@
+MANIFEST
+README
+LICENSE
+Changes
+Makefile.PL
+lib/WWW/Epguides.pm
+lib/WWW/Epguides/Episode.pm
+t/001_load.t
+t/002_shows.t
+t/003_episodes.t
