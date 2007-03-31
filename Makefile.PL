@@ -10,9 +10,9 @@ WriteMakefile
   AUTHOR       => 'Danny Warren (perl@dannywarren.com)',
   ABSTRACT     => 'Parse epguides.com for TV show episode listings',
   PREREQ_PM    => {
-                    'Object::InsideOut' => 3.14,
-                    'LWP::UserAgent' => 5.805,
-                    'HTML::TreeBuilder' => 3.23,
+                    'Object::InsideOut' => 3.13,
+                    'LWP::UserAgent' => 2.033,
+                    'HTML::TreeBuilder' => 3.13,
                     'Test::Simple' => 0.44,
                   },
 );
