@@ -208,13 +208,18 @@ package WWW::Epguides;
       my ($episode_index) = $line =~ /^\s*(\d+)/;
       
       # Get the season id, which is the first number in a 5-14
-      # formatted episode number.  This might also be a P for pilot
-      # or an S for special episode.
-      my ($episode_season_id) = $line =~ /([PS\d]+)-\s?\d+/;
+      # formatted episode number.  This might also be a P for pilot.
+      # We will skip S (for Special) episodes as these do not have
+      # useful or reliable episode numbers.
+      my ($episode_season_id) = $line =~ /([P\d]+)-\s?\d+/;
       
       # Get the episode id, which is the second number in a 5-14
       # formatted episode number
-      my ($episode_number_id) = $line =~ /[PS\d]+-\s?(\d+)/;
+      my ($episode_number_id) = $line =~ /[P\d]+-\s?(\d+)/;
+      
+      # Change the episode season id to '1' if it is a 'P' episode (since we
+      # would rather see the pilot episode listed as 101 instead of P01)
+      $episode_number_id =~ s/P/1/gi;
       
       # Build the episode number so that it is formatted like 514 or 502 (instead
       # of 5-14 or 5- 2)
@@ -241,18 +246,18 @@ package WWW::Epguides;
       my $episode = WWW::Epguides::Episode->new;
       
       # Set data for this episode
-      $episode->index       ( $episode_index );
-      $episode->season_id   ( $episode_season_id );
-      $episode->episode_id  ( $episode_number_id );
-      $episode->number      ( $episode_number );
-      $episode->date        ( $episode_date );
-      $episode->name        ( $episode_name );
+      $episode->index       ( $episode_index )      if $episode_index;
+      $episode->season_id   ( $episode_season_id )  if $episode_season_id;
+      $episode->episode_id  ( $episode_number_id )  if $episode_number_id;
+      $episode->number      ( $episode_number )     if $episode_number;
+      $episode->date        ( $episode_date )       if $episode_date;
+      $episode->name        ( $episode_name )       if $episode_name;
       
       # Add this episode to our by number hash
-      $episodes_by_number{$episode->number} = $episode;
+      $episodes_by_number{$episode->number} = $episode if $episode->number;
             
       # Add this episode to our by date hash
-      $episodes_by_date{$episode->date} = $episode;
+      $episodes_by_date{$episode->date} = $episode if $episode->date;
       
       # Add this episode to our episode list
       push @episodes, $episode;
