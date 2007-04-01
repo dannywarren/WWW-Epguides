@@ -213,13 +213,13 @@ package WWW::Epguides;
       # useful or reliable episode numbers.
       my ($episode_season_id) = $line =~ /([P\d]+)-\s?\d+/;
       
+      # Change the episode season id to '1' if it is a 'P' episode (since we
+      # would rather see the pilot episode listed as 101 instead of P01)
+      $episode_season_id =~ s/P/1/gi if defined $episode_season_id;
+      
       # Get the episode id, which is the second number in a 5-14
       # formatted episode number
       my ($episode_number_id) = $line =~ /[P\d]+-\s?(\d+)/;
-      
-      # Change the episode season id to '1' if it is a 'P' episode (since we
-      # would rather see the pilot episode listed as 101 instead of P01)
-      $episode_number_id =~ s/P/1/gi if defined $episode_number_id;
       
       # Build the episode number so that it is formatted like 514 or 502 (instead
       # of 5-14 or 5- 2)
