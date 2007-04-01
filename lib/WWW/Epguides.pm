@@ -219,11 +219,11 @@ package WWW::Epguides;
       
       # Change the episode season id to '1' if it is a 'P' episode (since we
       # would rather see the pilot episode listed as 101 instead of P01)
-      $episode_number_id =~ s/P/1/gi;
+      $episode_number_id =~ s/P/1/gi if defined $episode_number_id;
       
       # Build the episode number so that it is formatted like 514 or 502 (instead
       # of 5-14 or 5- 2)
-      my $episode_number = sprintf('%s%02d', $episode_season_id, $episode_number_id);
+      my $episode_number = sprintf('%s%02d', $episode_season_id, $episode_number_id) if defined $episode_season_id and defined $episode_number_id;
       
       # Get the episode air date, which is formatted like DD MMM YY
       my ($episode_day, $episode_month, $episode_year) = $line =~ /(\d{1,2})\s(\w{3,3})\s(\d{2,2})/;
@@ -246,18 +246,18 @@ package WWW::Epguides;
       my $episode = WWW::Epguides::Episode->new;
       
       # Set data for this episode
-      $episode->index       ( $episode_index )      if $episode_index;
-      $episode->season_id   ( $episode_season_id )  if $episode_season_id;
-      $episode->episode_id  ( $episode_number_id )  if $episode_number_id;
-      $episode->number      ( $episode_number )     if $episode_number;
-      $episode->date        ( $episode_date )       if $episode_date;
-      $episode->name        ( $episode_name )       if $episode_name;
+      $episode->index       ( $episode_index )      if defined $episode_index;
+      $episode->season_id   ( $episode_season_id )  if defined $episode_season_id;
+      $episode->episode_id  ( $episode_number_id )  if defined $episode_number_id;
+      $episode->number      ( $episode_number )     if defined $episode_number;
+      $episode->date        ( $episode_date )       if defined $episode_date;
+      $episode->name        ( $episode_name )       if defined $episode_name;
       
       # Add this episode to our by number hash
-      $episodes_by_number{$episode->number} = $episode if $episode->number;
+      $episodes_by_number{$episode->number} = $episode if defined $episode->number;
             
       # Add this episode to our by date hash
-      $episodes_by_date{$episode->date} = $episode if $episode->date;
+      $episodes_by_date{$episode->date} = $episode if defined $episode->date;
       
       # Add this episode to our episode list
       push @episodes, $episode;
