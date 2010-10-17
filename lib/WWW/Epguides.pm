@@ -1,6 +1,6 @@
 package WWW::Epguides;
 
-our $VERSION = '1.00_05';
+our $VERSION = '1.00_06';
 
 #########################################################################
 # Libraries
@@ -38,7 +38,7 @@ my @base_url
   :Field
   :Arg( Name => 'base_url' )
   :Acc( Name => 'base_url' )
-  :Default( 'http://epguides.com/' )
+  :Default( 'http://epguides.com' )
 ;
 
 # Url of the show at the epguides website
