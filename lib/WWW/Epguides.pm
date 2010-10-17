@@ -113,8 +113,11 @@ sub _init :Init
   # Get the show from the epguides site
   $self->html( $self->ua->get( $self->show_url )->content );
   
-  # Get the content of the url
-  $self->tree( HTML::TreeBuilder->new_from_content( $self->html ) );
+  # Create a tree parser and grab the content of the html
+  my $tree = HTML::TreeBuilder->new;
+  $tree->utf8_mode(1);
+  $tree->parse( $self->html );
+  $self->tree( $tree );
   
   # Parse the show name
   $self->_parse_show_name;
@@ -242,6 +245,11 @@ sub _parse_episodes
     
     # Get the episode title, which is the rightmost chunk of text 
     my $episode_name = (split /\s{2,}/, $line)[-1]; 
+    
+    # Remove any trailer or recap links from the episode name, which are
+    # populated by epguides and sometimes sneak in to the episode name
+    # as something like "[trailer]"
+    $episode_name =~ s/\s+\[\w+\]$//;
     
     # Create the episode entry
     my $episode = WWW::Epguides::Episode->new;
