@@ -1,6 +1,6 @@
 package WWW::Epguides;
 
-our $VERSION = '1.00_04';
+our $VERSION = '1.00_05';
 
 #########################################################################
 # Libraries
@@ -76,8 +76,9 @@ my @show_name
 # List of Episode objects
 my @episodes
   :Field
-  :Type(list)
+  :Type(LIST)
   :Acc( Name => 'episodes' )
+  :Default( [] )
 ;
 
 # Holds episode data by date
@@ -85,6 +86,7 @@ my @episodes_by_date
   :Field
   :Type(HASH)
   :Acc( Name => 'episodes_by_date' )
+  :Default( {} )
 ;
 
 # Holds episode data by number
@@ -92,6 +94,7 @@ my @episodes_by_number
   :Field
   :Type(HASH)
   :Acc( Name => 'episodes_by_number' )
+  :Default( {} )
 ;
 
 
@@ -276,9 +279,9 @@ sub _parse_episodes
   }
   
   # Add episodes list to the object
-  $self->episodes( @episodes );
-  $self->episodes_by_number( %episodes_by_number );
-  $self->episodes_by_date( %episodes_by_date );
+  $self->episodes( \@episodes );
+  $self->episodes_by_number( \%episodes_by_number );
+  $self->episodes_by_date( \%episodes_by_date );
 }
 
 1;
