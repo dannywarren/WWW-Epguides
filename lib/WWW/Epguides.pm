@@ -1,6 +1,6 @@
 package WWW::Epguides;
 
-our $VERSION = '1.00_03';
+our $VERSION = '1.00_04';
 
 #########################################################################
 # Libraries
@@ -249,7 +249,10 @@ sub _parse_episodes
     # Remove any trailer or recap links from the episode name, which are
     # populated by epguides and sometimes sneak in to the episode name
     # as something like "[trailer]"
-    $episode_name =~ s/\s+\[\w+\]$//g;
+    while ( $episode_name =~ /\[\w+\]$/ )
+    {
+      $episode_name =~ s/\s+\[\w+\]$//;
+    }
     
     # Create the episode entry
     my $episode = WWW::Epguides::Episode->new;
