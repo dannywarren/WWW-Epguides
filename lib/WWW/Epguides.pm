@@ -259,8 +259,6 @@ sub _parse_episodes
     # Get the episode title, which is the rightmost chunk of text 
     my $episode_name = (split /\s{2,}/, $line)[-1]; 
     
-    print $episode_name . "\n";
-    
     # Remove any trailer or recap links from the episode name, which are
     # populated by epguides and sometimes sneak in to the episode name
     # as something like "[trailer]"
