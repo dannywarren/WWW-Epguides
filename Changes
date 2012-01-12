@@ -1,4 +1,9 @@
 Revision history for Perl module WWW::Epguides
 
-0.01_1 2007.03.30
-* Initial development version
+0.01_01 2007.03.30
+  * Initial development version
+
+0.01_06 2011.01.12
+  * Added extra HTML::Tree code to strip out any span tags from the episode
+    list before dumping it to text, so that we can avoid some of the gotchas
+    those extra elements present

@@ -1,6 +1,6 @@
 package WWW::Epguides;
 
-our $VERSION = '1.00_06';
+our $VERSION = '1.00_07';
 
 #########################################################################
 # Libraries
@@ -196,8 +196,18 @@ sub _parse_episodes
   my %episodes_by_date;
   my %episodes_by_number;
   
+  # Get the pre node that contains the plaintext episode listing
+  my $pre_node = $self->tree->look_down( '_tag', 'pre' );
+  
+  # Epguides now contains extra stuff in span tags (like links to trailers
+  # and other stuff) which we will need to delete from the pre node
+  foreach my $span_node ( $pre_node->look_down( '_tag', 'span' ) )
+  {
+    $span_node->delete;
+  }
+  
   # Get the episode list data as text
-  my $episode_data = $self->tree->look_down( '_tag', 'pre' )->as_text;
+  my $episode_data = $pre_node->as_text;
   
   # Iterate over the show data to build the episode list
   LINE: foreach my $line (split /\n/, $episode_data)
@@ -248,6 +258,8 @@ sub _parse_episodes
     
     # Get the episode title, which is the rightmost chunk of text 
     my $episode_name = (split /\s{2,}/, $line)[-1]; 
+    
+    print $episode_name . "\n";
     
     # Remove any trailer or recap links from the episode name, which are
     # populated by epguides and sometimes sneak in to the episode name
