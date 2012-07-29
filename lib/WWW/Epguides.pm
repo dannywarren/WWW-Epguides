@@ -1,6 +1,6 @@
 package WWW::Epguides;
 
-our $VERSION = '1.00_07';
+our $VERSION = '1.00_08';
 
 #########################################################################
 # Libraries
@@ -114,7 +114,16 @@ sub _init :Init
   $self->show_url( $self->base_url . '/' . $self->show_id );
   
   # Get the show from the epguides site
-  $self->html( $self->ua->get( $self->show_url )->content );
+  my $response = $self->ua->get( $self->show_url );
+  
+  # Verify that we got a response
+  if ( ! $response->is_success )
+  {
+    die $response->status_line;
+  }
+  
+  # Grab the content of the page so we can parse it
+  $self->html( $response->content );
   
   # Create a tree parser and grab the content of the html
   my $tree = HTML::TreeBuilder->new;
