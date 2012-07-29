@@ -7,3 +7,7 @@ Revision history for Perl module WWW::Epguides
   * Added extra HTML::Tree code to strip out any span tags from the episode
     list before dumping it to text, so that we can avoid some of the gotchas
     those extra elements present
+
+0.02 2012.01.24
+  * Rewrote show listing feature to use the csv list
+

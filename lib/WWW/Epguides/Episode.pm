@@ -1,56 +1,63 @@
 package WWW::Epguides::Episode;
-
-#########################################################################
-# Libraries
-#########################################################################
-
-# Declare this package as an inside out object
-use Object::InsideOut;
-
-# Standard modules
-use strict;
-use Carp;
+use Moose;
 
 
 #########################################################################
-# Accessors
+# Attributes
 #########################################################################
 
-# Episode index
-my @index
-  :Field
-  :Acc( Name => 'index' )
-;
+has 'id' =>
+(
+  is  => 'rw',
+  isa => 'Int',
+);
 
-# Season id, ex: 2
-my @season_id
-  :Field
-  :Acc( Name => 'season_id' )
-;
+has 'season' =>
+(
+  is  => 'rw',
+  isa => 'Str',
+);
 
-# Episode id, ex: 17
-my @episode_id
-  :Field
-  :Acc( Name => 'episode_id' )
-;
-  
-# Episode number, ex: 217
-my @number
-  :Field
-  :Acc( Name => 'number' )
-;
+has 'episode' =>
+(
+  is  => 'rw',
+  isa => 'Str',
+);
 
-# Air date formatted as YYYY-MM-DD
-my @date
-  :Field
-  :Acc( Name => 'date' )
-;
+has 'number' =>
+(
+  is  => 'rw',
+  isa => 'Str',
+);
 
-# Episode name, ex: Lockdown
-my @name
-  :Field
-  :Acc( Name => 'name' )
-;
+has 'date' =>
+(
+  is  => 'rw',
+  isa => 'Str',
+);
+
+has 'name' =>
+(
+  is  => 'rw',
+  isa => 'Str',
+);
+
+has 'episode_data' =>
+(
+  is  => 'rw',
+  isa => 'Ref',
+);
+
+
+
+##############################################################################
+# Builders
+##############################################################################
+
+
+##############################################################################
+# Methods
+##############################################################################
+
 
 1;
-
