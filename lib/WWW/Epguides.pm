@@ -20,6 +20,11 @@ use WWW::Epguides::Episode;
 use HTML::TreeBuilder;
 use LWP::UserAgent;
 
+# Exception handling
+use Exception::Class (
+  'EpguidesException',
+);
+
 
 #########################################################################
 # Accessors
@@ -119,7 +124,8 @@ sub _init :Init
   # Verify that we got a response
   if ( ! $response->is_success )
   {
-    die $response->status_line;
+    EpguidesException->throw( $response->status_line );
+    return;
   }
   
   # Grab the content of the page so we can parse it
